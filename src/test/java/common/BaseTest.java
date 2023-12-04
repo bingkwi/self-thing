@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Parameters;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -17,21 +18,17 @@ public class BaseTest {
     }
 
     private void setDriver(String browserType, String appURL) {
-        switch (browserType) {
-            case "chrome":
-                driver = initChromeDriver(appURL);
-                break;
-            default:
-                System.out.println("Browser:" + browserType + "is invalid, launching Chrome as ");
-                driver = initChromeDriver(appURL);
-                
+        System.out.println("áioudhahdjkashjdhasjkdhjkashjkdas");
+        if (!browserType.equals("chrome")) {
+            System.out.println("Browser:" + browserType + "is invalid, launching Chrome as ");
         }
+        driver = initChromeDriver(appURL);
     }
 
     private WebDriver initChromeDriver(String appURL) {
         System.out.println("Launching Chrome browser...");
-        String driverPath = null;
-        System.setProperty("webdriver.chrome.driver", driverPath + "chromedriver.exe");
+        String driverPath = "C:\\Users\\bichquynh.nguyen\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver", driverPath);
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.navigate().to(appURL);
@@ -44,16 +41,28 @@ public class BaseTest {
     @BeforeClass
     public void initializeTestBaseSetup(String browserType, String appURL) {
         try {
+            System.out.println("ádlhasdjknasdasjkdjkasbn");
             // Khởi tạo driver và browser
             setDriver(browserType, appURL);
         } catch (Exception e) {
-            System.out.println("Error..." + e.getStackTrace());
+            System.out.println("Error..." + Arrays.toString(e.getStackTrace()));
         }
     }
 
     @AfterClass
-    public void tearDown() throws Exception {
+    public static void tearDown() throws Exception {
         Thread.sleep(2000);
         driver.quit();
+    }
+    public static void threadSleep(double second) {
+        try
+        {
+            Thread.sleep((long) (1000*second));
+        }
+        catch(InterruptedException e)
+        {
+            throw new RuntimeException(e);
+            // this part is executed when an exception (in this example InterruptedException) occurs
+        }
     }
 }
